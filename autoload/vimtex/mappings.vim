@@ -12,6 +12,7 @@ function! vimtex#mappings#init(initialized)
 
   nmap <silent><buffer> dse  <plug>(vimtex-delete-env)
   nmap <silent><buffer> dsc  <plug>(vimtex-delete-cmd)
+  nmap <silent><buffer> dsd  <plug>(vimtex-delete-delim)
   nmap <silent><buffer> cse  <plug>(vimtex-change-env)
   nmap <silent><buffer> csc  <plug>(vimtex-change-cmd)
   nmap <silent><buffer> tse  <plug>(vimtex-toggle-star)

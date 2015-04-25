@@ -10,6 +10,8 @@ function! vimtex#change#init(initialized) " {{{1
         \ :call vimtex#change#env('')<cr>
   nnoremap <silent><buffer> <plug>(vimtex-delete-cmd)   vaBom`o<esc>xg``xdF\
         \:silent! call repeat#set("\<plug>(vimtex-delete-cmd)", v:count)<cr>
+  nnoremap <silent><buffer> <plug>(vimtex-delete-delim)
+        \ :call vimtex#change#delim('', '')<cr>
   nnoremap <silent><buffer> <plug>(vimtex-change-env)
         \ :call vimtex#change#env_prompt()<cr>
   nnoremap <silent><buffer> <plug>(vimtex-change-cmd)
@@ -84,6 +86,7 @@ endfunction
 
 function! vimtex#change#delim(open, close) " {{{1
   let [d1, l1, c1, d2, l2, c2] = vimtex#util#get_delim()
+  let cpos = getpos('.')
 
   let line = getline(l1)
   let line = strpart(line,0,c1 - 1) . a:open . strpart(line, c1 + len(d1) - 1)
@@ -100,6 +103,24 @@ function! vimtex#change#delim(open, close) " {{{1
   let line = getline(l2)
   let line = strpart(line,0,c2 - 1) . a:close . strpart(line, c2 + len(d2) - 1)
   call setline(l2, line)
+
+  " reset cursor position
+  if l1 == l2
+    if cpos[2] >= c1 && cpos[2] < c1 + len(d1)
+      let cpos[2] = c1
+    else
+      let cpos[2] = c2
+    endif
+  elseif l1 == cpos[1]
+    " left delimiter
+    let cpos[2] = c1
+  elseif l2 == cpos[1]
+    " right delimiter
+    let cpos[2] = c2
+  endif
+
+  call setpos('.', cpos)
+
 endfunction
 
 function! vimtex#change#env(new) " {{{1
