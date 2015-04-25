@@ -98,7 +98,7 @@ let s:preamble = 1
 let s:re_input = '\v^\s*\\%(input|include)\s*\{'
 let s:re_input_file = s:re_input . '\zs[^\}]+\ze}'
 let s:re_label = '\v\\label\{'
-let s:re_label_title = s:re_label . '\zs.{-}\ze\}?\s*$'
+let s:re_label_title = s:re_label . '\zs[^}]{-}\ze\}?\s*$'
 
 " }}}1
 
